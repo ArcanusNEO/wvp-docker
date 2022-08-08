@@ -1,0 +1,9 @@
+FROM debian:stable
+LABEL maintainer="lucas"
+
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
+  apt-get update && apt-get upgrade -y && apt-get install -y build-essential git cmake ninja-build openjdk-11-jre maven nodejs npm redis && \
+  mkdir /root/src && cd /root/src && \
+  git clone https://gitee.com/pan648540858/wvp-GB28181-pro.git && cd wvp-GB28181-pro/web_src && npm --registry=https://registry.npm.taobao.org install && npm run build && cd /root/src/wvp-GB28181-pro && mvn package && cp src/main/resources/application-docker.yml target/application.yml 
+
+CMD /etc/init.d/redis-server start && cd /root/src/wvp-GB28181-pro/target && java -jar wvp-pro-*.jar
