@@ -15,7 +15,7 @@ while
   docker run --rm mysql:latest mysql -h$(docker inspect --format '{{.NetworkSettings.IPAddress}}' mysql-wvp) -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
   [[ "$?"_ != "0"_ ]]
 do
-  printf .
+  echo -n '.'
   sleep 1
 done
 sleep 1 && echo "" && echo "MySQL successfully started"
