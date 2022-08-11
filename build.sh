@@ -1,12 +1,12 @@
 #!/bin/sh
-set -ex
 
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
-MYSQL_HOST=172.17.254.2
-ZLM_HOST=172.17.254.3
+MYSQL_HOST=172.18.254.2
+ZLM_HOST=172.18.254.3
+docker network create -d bridge wvp-net --subnet=172.18.254.0/24 --gateway=172.18.254.1
 
+set -ex
 docker pull mysql:latest
-docker network create -d bridge wvp-net --subnet=172.17.254.0/24 --gateway=172.17.254.1
 docker run -d --restart=always --name=mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --network=wvp-net --ip=$MYSQL_HOST mysql:latest
 
 docker build -f Dockerfile.zl -t lucas/zlmediakit:0.1.0 .
@@ -14,7 +14,7 @@ docker build -f Dockerfile.wvp -t lucas/wvp:0.1.0 .
 docker run -d --restart=always --name=zlmediakit --network=wvp-net --ip=$ZLM_HOST lucas/zlmediakit:0.1.0
 
 set +ex
-echo "MySQL starting"
+echo "waiting for MySQL to be ready"
 while
   docker run --rm --network=wvp-net mysql:latest mysql -h$MYSQL_HOST -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
   [[ "$?"_ != "0"_ ]]
@@ -22,7 +22,7 @@ do
   echo -n '.'
   sleep 1
 done
-sleep 1 && echo "" && echo "MySQL successfully started"
+sleep 1 && echo "" && echo "MySQL is ready"
 
 set -ex
 
