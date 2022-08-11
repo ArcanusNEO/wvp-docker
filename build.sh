@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 
-MYSQL_ROOT_PASSWORD=123465
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
 docker pull mysql:latest
 docker run -d --restart=always --name mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --health-cmd='mysqladmin ping --silent' mysql:latest
 
