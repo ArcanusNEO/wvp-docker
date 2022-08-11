@@ -1,11 +1,11 @@
 #!/bin/sh
 
-docker network create -d bridge wvp-net --subnet=172.18.254.0/24 --gateway=172.18.254.1
+docker network create -d bridge wvp-net --subnet=172.29.254.0/24 --gateway=172.29.254.1
 
 set -ex
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
-MYSQL_HOST=172.18.254.254
-ZLM_HOST=172.18.254.253
+MYSQL_HOST=172.29.254.254
+ZLM_HOST=172.29.254.253
 
 docker pull mysql:latest
 docker run -d --restart=always --name=mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --network=wvp-net --ip=$MYSQL_HOST mysql:latest
