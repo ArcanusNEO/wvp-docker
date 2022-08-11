@@ -15,7 +15,7 @@ docker build -f Dockerfile.wvp -t lucas/wvp:0.1.0 .
 docker run -d --restart=always --name=zlmediakit --network=wvp-net --ip=$ZLM_HOST lucas/zlmediakit:0.1.0
 
 set +ex
-echo -n "waiting for MySQL"
+echo -n 'waiting for MySQL'
 while
   docker run --rm --network=wvp-net mysql:latest mysql -h$MYSQL_HOST -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
   [[ "$?"_ != "0"_ ]]
@@ -23,7 +23,7 @@ do
   echo -n '.'
   sleep 1
 done
-sleep 1 && echo "" && echo "MySQL is ready"
+sleep 1 && echo '' && echo 'MySQL is ready'
 
 set -ex
 
