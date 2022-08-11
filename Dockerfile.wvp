@@ -11,4 +11,4 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shangh
   mv target/wvp-pro-*.jar /usr/local/lib/wvp && \
   rm -rf /root/src
 
-CMD /etc/init.d/redis-server start && java -jar wvp-pro-*.jar --spring.config.location=/usr/local/lib/wvp/application.yml
+CMD /etc/init.d/redis-server start && cd /usr/local/lib/wvp && java -jar wvp-pro-*.jar
