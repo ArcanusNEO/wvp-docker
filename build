@@ -13,7 +13,7 @@ docker run -d --restart=always --name=mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_RO
 
 docker build -f "$CUR_DIR/Dockerfile.zl" -t lucas/zlmediakit:0.1.0 "$CUR_DIR"
 docker build -f "$CUR_DIR/Dockerfile.wvp" -t lucas/wvp:0.1.0 "$CUR_DIR"
-docker run -d --restart=always --name=zlmediakit --network=wvp-net --ip=$ZLM_HOST lucas/zlmediakit:0.1.0
+docker run -d --restart=always --name=zlmediakit --network=wvp-net --ip=$ZLM_HOST -p 1935:1935 -p 8080:80 -p 8443:443 -p 8554:554 -p 10000:10000 -p 10000:10000/udp -p 8000:8000/udp -p 9000:9000/udp lucas/zlmediakit:0.1.0
 
 set +ex
 echo -n 'waiting for MySQL'
