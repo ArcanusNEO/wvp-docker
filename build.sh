@@ -12,7 +12,7 @@ docker run -d --restart=always --name zlmediakit --network=container:mysql-wvp l
 set +ex
 echo "MySQL starting"
 while
-  docker run --rm --network=container:mysql-wvp mysql:latest mysql -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
+  docker run --rm --network=container:mysql-wvp mysql:latest mysql -h127.0.0.1 -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
   [[ "$?"_ != "0"_ ]]
 do
   echo -n '.'
