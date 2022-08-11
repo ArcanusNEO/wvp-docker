@@ -3,7 +3,7 @@ set -ex
 
 MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
 docker pull mysql:latest
-docker run -d --restart=always --name mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --health-cmd='mysqladmin ping --silent' mysql:latest
+docker run -d --restart=always --name mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD mysql:latest
 
 docker build -f Dockerfile.zl -t lucas/zlmediakit:0.1.0 .
 docker build -f Dockerfile.wvp -t lucas/wvp:0.1.0 .
@@ -12,13 +12,9 @@ docker run -d --restart=always --name zlmediakit lucas/zlmediakit:0.1.0
 set +ex
 echo "MySQL starting"
 while
-  MYSQL_STATUS=$(docker inspect --format "{{.State.Health.Status}}" mysql-wvp)
-  [ "$MYSQL_STATUS"_ != "healthy"_ ]
+  docker run --rm mysql:latest mysql -h$(docker inspect --format '{{.NetworkSettings.IPAddress}}' mysql-wvp) -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
+  [[ "$?"_ != "0"_ ]]
 do
-  if [ "$MYSQL_STATUS"_ == "unhealthy"_ ]; then
-    echo "MySQL failed to start"
-    exit -1
-  fi
   printf .
   sleep 1
 done
