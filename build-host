@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -ex
+CUR_DIR="$(dirname $(readlink -f "$0"))"
+WVP_HOST="${WVP_HOST:-127.0.0.1}"
+MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
+MYSQL_HOST=127.0.0.1
+ZLM_HOST=127.0.0.1
+
+docker pull mysql:latest
+docker run -d --restart=always --name=mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --network=host mysql:latest
+
+docker build -f "$CUR_DIR/Dockerfile.zlm" -t lucas/zlmediakit:0.1.0 "$CUR_DIR"
+docker build -f "$CUR_DIR/Dockerfile.wvp" -t lucas/wvp:0.1.0 "$CUR_DIR"
+docker run -d --restart=always --name=zlmediakit --network=host lucas/zlmediakit:0.1.0
+
+set +ex
+echo -n 'waiting for MySQL'
+while
+  docker run --rm --network=host mysql:latest mysql -h$MYSQL_HOST -uroot -p$MYSQL_ROOT_PASSWORD &>/dev/null
+  [[ "$?"_ != "0"_ ]]
+do
+  echo -n '.'
+  sleep 1
+done
+sleep 1 && echo '' && echo 'MySQL is ready'
+
+set -ex
+
+echo 'CREATE DATABASE IF NOT EXISTS wvp DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;' | docker exec -i mysql-wvp mysql -ABq -uroot -p$MYSQL_ROOT_PASSWORD
+curl -fsSL https://gitee.com/pan648540858/wvp-GB28181-pro/raw/wvp-28181-2.0/sql/mysql.sql | sed -E -e 's/wvp2/wvp/g' -e 's/\s\+\s00:00/UTC/g' | docker exec -i mysql-wvp mysql -ABq -uroot -p$MYSQL_ROOT_PASSWORD -Dwvp
+
+docker run -d --restart=always --name=wvp --network=host -e MYSQL_HOST=$MYSQL_HOST -e MYSQL_PWD=$MYSQL_ROOT_PASSWORD -e ZLM_HOST=$ZLM_HOST -e WVP_HOST=$WVP_HOST lucas/wvp:0.1.0
