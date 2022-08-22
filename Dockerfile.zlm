@@ -15,8 +15,8 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shangh
 RUN mkdir -p /root/src && cd /root/src && \
   git clone --depth 1 https://gitee.com/xia-chu/ZLMediaKit && cd ZLMediaKit && git submodule update --init && \
   mkdir build && cd build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && ninja && mv ../release/linux/Release /usr/local/lib/ZLMediaKit && \
-  sed -i -e 's|mediaServerId.*|mediaServerId=zl-server-0000|g' /usr/local/lib/ZLMediaKit/config.ini && \
   cd /usr/local/bin && ln -sf ../lib/ZLMediaKit/MediaServer . && \
   rm -rf /root/src
+RUN sed -i -e 's|mediaServerId.*|mediaServerId=zl-server-0000|g' /usr/local/lib/ZLMediaKit/config.ini
 
 CMD MediaServer -d
