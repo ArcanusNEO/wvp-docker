@@ -7,7 +7,7 @@ MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-123465}"
 MYSQL_HOST=127.0.0.1
 ZLM_HOST=127.0.0.1
 
-docker pull mysql:latest
+# docker pull mysql:latest
 docker run -d --restart=always --name=mysql-wvp -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD --network=host mysql:latest
 
 docker build -f "$CUR_DIR/Dockerfile.zlm" -t lucas/zlmediakit:0.1.0 "$CUR_DIR"
