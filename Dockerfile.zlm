@@ -11,8 +11,8 @@ EXPOSE 8000/udp
 EXPOSE 9000/udp
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
-  apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends apt-transport-https ca-certificates build-essential git cmake ninja-build libssl-dev libsdl-dev libavcodec-dev libavutil-dev libsrtp2-dev ffmpeg && apt-get autoremove --purge -y && apt-get clean -y && rm -rf /var/lib/apt/lists && \
-  mkdir -p /root/src && cd /root/src && \
+  apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends apt-transport-https ca-certificates build-essential git cmake ninja-build libssl-dev libsdl-dev libavcodec-dev libavutil-dev libsrtp2-dev ffmpeg && apt-get autoremove --purge -y && apt-get clean -y && rm -rf /var/lib/apt/lists
+RUN mkdir -p /root/src && cd /root/src && \
   git clone --depth 1 https://gitee.com/xia-chu/ZLMediaKit && cd ZLMediaKit && git submodule update --init && \
   mkdir build && cd build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && ninja && mv ../release/linux/Release /usr/local/lib/ZLMediaKit && \
   sed -i -e 's|mediaServerId.*|mediaServerId=zl-server-0000|g' /usr/local/lib/ZLMediaKit/config.ini && \
