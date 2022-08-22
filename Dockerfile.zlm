@@ -1,14 +1,14 @@
 FROM debian:stable
 LABEL maintainer="lucas"
 
-EXPOSE 1935/tcp
-EXPOSE 554/tcp
-EXPOSE 80/tcp
-EXPOSE 443/tcp
-EXPOSE 10000/udp
-EXPOSE 10000/tcp
-EXPOSE 8000/udp
-EXPOSE 9000/udp
+# EXPOSE 1935/tcp
+# EXPOSE 554/tcp
+# EXPOSE 80/tcp
+# EXPOSE 443/tcp
+# EXPOSE 10000/udp
+# EXPOSE 10000/tcp
+# EXPOSE 8000/udp
+# EXPOSE 9000/udp
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
   apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends apt-transport-https ca-certificates build-essential git cmake ninja-build libssl-dev libsdl-dev libavcodec-dev libavutil-dev libsrtp2-dev ffmpeg && apt-get autoremove --purge -y && apt-get clean -y && rm -rf /var/lib/apt/lists
