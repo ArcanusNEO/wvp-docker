@@ -2,7 +2,8 @@ FROM debian:stable
 LABEL maintainer="lucas"
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
-  apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends apt-transport-https ca-certificates locales fonts-wqy-microhei fonts-wqy-zenhei build-essential git cmake ninja-build openjdk-11-jre maven nodejs npm && apt-get autoremove --purge -y && apt-get clean -y && rm -rf /var/lib/apt/lists && \
+  apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends apt-transport-https ca-certificates locales fonts-wqy-microhei fonts-wqy-zenhei build-essential git cmake ninja-build openjdk-11-jre maven nodejs npm && \
+  apt-get autoremove --purge -y && apt-get clean -y && rm -rf /var/lib/apt/lists && \
   sed -i -e 's|^#\s*zh_|zh_|g' -e 's|^#\s*en_US|en_US|g' /etc/locale.gen && \
   locale-gen
 RUN mkdir -p /root/src && cd /root/src && git clone https://gitee.com/pan648540858/wvp-GB28181-pro.git && \
@@ -17,4 +18,4 @@ RUN sed -i -e 's|jdbc:mysql://127\.0\.0\.1:3306|jdbc:mysql://${MYSQL_HOST:127\.0
 
 ENV LC_ALL=zh_CN.UTF-8
 
-CMD cd /usr/local/lib/wvp && java -jar wvp-pro-*.jar
+CMD java -jar /usr/local/lib/wvp/wvp-pro-*.jar
