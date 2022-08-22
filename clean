@@ -3,5 +3,6 @@
 "$(dirname $(readlink -f "$0"))/stop"
 docker rm wvp
 docker rm zlmediakit
+docker rm redis-wvp
 docker rm mysql-wvp
 docker network rm wvp-net
