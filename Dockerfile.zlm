@@ -19,7 +19,7 @@ RUN mkdir -p /root/src && cd /root/src && \
   mkdir build && cd build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. && ninja && mv ../release/linux/Release /usr/local/lib/ZLMediaKit && \
   cd /usr/local/bin && ln -sf ../lib/ZLMediaKit/MediaServer . && \
   rm -rf /root/src
-RUN sed -i -e 's|mediaServerId.*|mediaServerId=deadbeef|g' /usr/local/lib/ZLMediaKit/config.ini
+RUN sed -i -e 's|mediaServerId.*|mediaServerId=zlm-0000|g' /usr/local/lib/ZLMediaKit/config.ini
 
 ENV LC_ALL=zh_CN.UTF-8
 
