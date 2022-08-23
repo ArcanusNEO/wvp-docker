@@ -4,3 +4,4 @@ docker stop wvp
 docker stop zlmediakit
 docker stop redis-wvp
 docker stop mysql-wvp
+docker stop wvp-full

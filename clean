@@ -5,4 +5,5 @@ docker rm wvp
 docker rm zlmediakit
 docker rm redis-wvp
 docker rm mysql-wvp
+docker rm wvp-full
 docker network rm wvp-net
