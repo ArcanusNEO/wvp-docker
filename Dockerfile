@@ -29,4 +29,4 @@ RUN sed -i -e 's|mediaServerId.*|mediaServerId=zlm-0000|g' /usr/local/lib/ZLMedi
 
 ENV LC_ALL=zh_CN.UTF-8
 
-CMD MediaServer & java -jar /usr/local/lib/wvp-assist/*.jar --userSettings.record=/usr/local/lib/ZLMediaKit/www/record/ & cd /usr/local/lib/wvp && java -jar wvp-pro-*.jar
+CMD MediaServer -d & java -jar /usr/local/lib/wvp-assist/*.jar --userSettings.record=/usr/local/lib/ZLMediaKit/www/record/ & cd /usr/local/lib/wvp && java -jar wvp-pro-*.jar
