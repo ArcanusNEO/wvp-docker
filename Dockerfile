@@ -23,6 +23,8 @@ RUN mkdir -p /root/src && cd /root/src && git clone https://gitee.com/pan6485408
   mv target/wvp-pro-*.jar /usr/local/lib/wvp && \
   rm -rf /root/src
 
+RUN rm -rf /root/.*/
+
 RUN sed -i -e 's|mediaServerId.*|mediaServerId=zlm-0000|g' /usr/local/lib/ZLMediaKit/config.ini && \
   sed -i -e 's|jdbc:mysql://127\.0\.0\.1:3306|jdbc:mysql://${MYSQL_HOST:127\.0\.0\.1}:${MYSQL_PORT:3306}|g' -e 's|password: root|password: ${MYSQL_PWD:root}|g' -e 's|${REDIS_PWD:root}|${REDIS_PWD:}|g' /usr/local/lib/wvp/application.yml && \
   sed -E -i -e 's|\s{4}id:\s*$|    id: zlm-0000|g' /usr/local/lib/wvp/application.yml
